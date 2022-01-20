@@ -19,9 +19,6 @@ app.use(express.json())
 app.use(userRouter)
 
 
-app.get('*', (req, res) => {
-    res.sendFile(path.resolve(publicPath, 'index.html'));
-  });
 
 
 app.listen(port, ()=>{
