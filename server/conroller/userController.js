@@ -2,12 +2,15 @@ const Users = require('../model/users')
 
 const createUser = async(req,res)=>{
     const user = new Users(req.body) 
+
     try{
+        console.log('hi');
         const result = await user.save()
+        console.log(result);
         return res.status(201).send(result)
     }
     catch(e){
-        return res.status(500).send(e)
+        return res.status(500).send( e)
     }
 }
 
@@ -37,12 +40,15 @@ const getUser = async (req, res) => {
 
 const deposit = async(req, res)=>{
     const passportId = req.params.passportId;
-    const amount = req.body.amount
+    const cash = req.body.cash
+    console.log(req.body);
     try {
-        if (!amount || amount < 0) {
+        if (!cash || cash < 0) {
             throw new Error('Invalid input data')
         }
-        const findUser = await Users.findOneAndUpdate({ passportId: passportId }, {$inc:{cash:amount }}, { new: true })
+        const findUser = await Users.findOneAndUpdate({ passportId: passportId },
+             {$inc:{cash:cash }}, 
+             { new: true })
         if(!findUser){
             return res.status(404).send("user not found");
         }
